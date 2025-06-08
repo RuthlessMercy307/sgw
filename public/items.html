@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGW</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+        body { padding: 16px; font-family: sans-serif; }
+        .item { margin-bottom: 12px; border: 1px solid #ccc; padding: 8px; border-radius: 6px; }
+        .item input { width: 40%; margin-right: 8px; }
+        .item button { margin-left: 4px; }
+    </style>
+    <script src="https://kit.fontawesome.com/39116ae592.js" crossorigin="anonymous"></script>
+</head>
+<body id="body">
+    
+    <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+    </header>
+
+    <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+            <i class="fab fa-youtube"></i>
+        </div>
+
+        <div class="options__menu">	
+
+            <a href="#" onclick="cargarSeccion('mesas')">
+                <div class="option">
+                    <i class="fas fa-home" title="Mesas"></i>
+                    <h4>Mesas</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('delivery')">
+                <div class="option">
+                    <i class="far fa-file" title="Delivery"></i>
+                    <h4>Delivery</h4>
+                </div>
+            </a>
+            
+            <a href="#" class="selected" onclick="cargarSeccion('items')">
+                <div class="option">
+                    <i class="fas fa-video" title="Items"></i>
+                    <h4>Items</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('usuarios')">
+                <div class="option">
+                    <i class="far fa-sticky-note" title="Usuarios"></i>
+                    <h4>Usuarios</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('historial')">
+                <div class="option">
+                    <i class="far fa-id-badge" title="historial"></i>
+                    <h4>Historico</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('ia')">
+                <div class="option">
+                    <i class="far fa-address-card" title="IA"></i>
+                    <h4>IA</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('configuracion')">
+                <div class="option">
+                    <i class="far fa-address-card" title="Configuración"></i>
+                    <h4>Configuracion</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('cerrar')">
+                <div class="option">
+                    <i class="far fa-address-card" title="Cerrar Sesión"></i>
+                    <h4>Cerrar Sesion</h4>
+                </div>
+            </a>
+
+        </div>
+
+
+    </div>
+
+    <main>
+        <div id="contenido"></div>
+        <h2>Editar Itens do Menu</h2>
+        <div id="lista-itens"></div>
+
+        <h3>Adicionar Novo Item</h3>
+        <input type="text" id="novo-nome" placeholder="Nome">
+        <input type="number" id="novo-preco" placeholder="Preço" step="0.01">
+        <button onclick="adicionarItem()">Adicionar</button>
+
+        <script>
+            let menu = {};
+
+            async function carregarMenu() {
+            const res = await fetch("menu.json");
+            menu = await res.json();
+            renderizarLista();
+            }
+
+            function renderizarLista() {
+            const div = document.getElementById("lista-itens");
+            div.innerHTML = '';
+
+            Object.entries(menu).forEach(([nome, preco], index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                itemDiv.innerHTML = `
+                <input type="text" value="${nome}" id="nome-${index}">
+                <input type="number" value="${preco}" step="0.01" id="preco-${index}">
+                <button onclick="salvarEdicao(${index})">Salvar</button>
+                <button onclick="removerItem('${nome}')">Remover</button>
+                `;
+                div.appendChild(itemDiv);
+            });
+            }
+
+            function salvarEdicao(index) {
+            const novoNome = document.getElementById(`nome-${index}`).value.trim();
+            const novoPreco = parseFloat(document.getElementById(`preco-${index}`).value);
+
+            if (!novoNome || isNaN(novoPreco)) return alert("Preencha corretamente o nome e preço.");
+
+            const nomes = Object.keys(menu);
+            const nomeOriginal = nomes[index];
+            delete menu[nomeOriginal];
+            menu[novoNome] = novoPreco;
+            salvarMenu();
+            }
+
+            function removerItem(nome) {
+            delete menu[nome];
+            salvarMenu();
+            }
+
+            function adicionarItem() {
+            const nome = document.getElementById("novo-nome").value.trim();
+            const preco = parseFloat(document.getElementById("novo-preco").value);
+
+            if (!nome || isNaN(preco)) return alert("Preencha nome e preço corretamente.");
+
+            menu[nome] = preco;
+            document.getElementById("novo-nome").value = '';
+            document.getElementById("novo-preco").value = '';
+            salvarMenu();
+            }
+
+            async function salvarMenu() {
+            await fetch('/salvar-menu', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(menu)
+            });
+            carregarMenu();
+            }
+
+            carregarMenu();
+        </script>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

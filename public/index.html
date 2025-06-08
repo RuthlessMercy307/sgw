@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGW</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+
+    <script src="https://kit.fontawesome.com/39116ae592.js" crossorigin="anonymous"></script>
+</head>
+<body id="body">
+    
+    <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+    </header>
+
+    <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+            <i class="fab fa-youtube"></i>
+        </div>
+
+        <div class="options__menu">	
+
+            <a href="#" class="selected" onclick="cargarSeccion('mesas')">
+                <div class="option">
+                    <i class="fas fa-home" title="Mesas"></i>
+                    <h4>Mesas</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('delivery')">
+                <div class="option">
+                    <i class="far fa-file" title="Delivery"></i>
+                    <h4>Delivery</h4>
+                </div>
+            </a>
+            
+            <a href="#" onclick="cargarSeccion('items')">
+                <div class="option">
+                    <i class="fas fa-video" title="Items"></i>
+                    <h4>Items</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('usuarios')">
+                <div class="option">
+                    <i class="far fa-sticky-note" title="Usuarios"></i>
+                    <h4>Usuarios</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('historial')">
+                <div class="option">
+                    <i class="far fa-id-badge" title="historial"></i>
+                    <h4>Historico</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('ia')">
+                <div class="option">
+                    <i class="far fa-address-card" title="IA"></i>
+                    <h4>IA</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('configuracion')">
+                <div class="option">
+                    <i class="far fa-address-card" title="Configuración"></i>
+                    <h4>Configuracion</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('cerrar')">
+                <div class="option">
+                    <i class="far fa-address-card" title="Cerrar Sesión"></i>
+                    <h4>Cerrar Sesion</h4>
+                </div>
+            </a>
+
+        </div>
+
+
+    </div>
+
+    <main>
+        <div id="contenido"></div>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

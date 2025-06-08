@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGW</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/delivery.css">
+
+    <script src="https://kit.fontawesome.com/39116ae592.js" crossorigin="anonymous"></script>
+</head>
+<body id="body">
+    
+    <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+    </header>
+
+    <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+            <i class="fab fa-youtube"></i>
+        </div>
+
+        <div class="options__menu">	
+
+            <a href="#" onclick="cargarSeccion('mesas')">
+                <div class="option">
+                    <i class="fas fa-home" title="Mesas"></i>
+                    <h4>Mesas</h4>
+                </div>
+            </a>
+
+            <a href="#" class="selected" onclick="cargarSeccion('delivery')">
+                <div class="option">
+                    <i class="far fa-file" title="Delivery"></i>
+                    <h4>Delivery</h4>
+                </div>
+            </a>
+            
+            <a href="#" onclick="cargarSeccion('items')">
+                <div class="option">
+                    <i class="fas fa-video" title="Items"></i>
+                    <h4>Items</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('usuarios')">
+                <div class="option">
+                    <i class="far fa-sticky-note" title="Usuarios"></i>
+                    <h4>Usuarios</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('historial')">
+                <div class="option">
+                    <i class="far fa-id-badge" title="historial"></i>
+                    <h4>Historico</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('ia')">
+                <div class="option">
+                    <i class="far fa-address-card" title="IA"></i>
+                    <h4>IA</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('configuracion')">
+                <div class="option">
+                    <i class="far fa-address-card" title="Configuración"></i>
+                    <h4>Configuracion</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('cerrar')">
+                <div class="option">
+                    <i class="far fa-address-card" title="Cerrar Sesión"></i>
+                    <h4>Cerrar Sesion</h4>
+                </div>
+            </a>
+
+        </div>
+
+
+    </div>
+
+    <main>
+        <div id="contenido"></div>
+        <h2>Pedidos por Delivery</h2>
+
+  <div class="container-3colunas">
+    <div class="comanda-atual">
+      <h2>Comanda Atual</h2>
+      <form id="pedido-form">
+        <label>Nº Comanda:<br><input type="text" name="numero" readonly></label><br>
+        <label>Cliente:<br><input type="text" name="cliente" required></label><br>
+        <label>Telefone:<br><input type="tel" name="telefone" required></label><br>
+        <label>Endereço:<br><input type="text" name="endereco"></label><br>
+        <label>Observações:<br><textarea name="observacoes" rows="2"></textarea></label><br>
+        <label>Método de pagamento:<br>
+          <select name="pagamento" required>
+            <option>Dinheiro</option>
+            <option>Pix</option>
+            <option>Cartão</option>
+          </select>
+        </label><br>
+        <label>Troco pra quanto? (opcional):<br>
+          <input type="number" name="troco" step="0.01">
+        </label><br>
+        <label>Valor do delivery (R$):<br>
+          <input type="number" name="delivery" value="0" step="0.01" required>
+        </label><br><br>
+      </form>
+
+      <ul id="itens-selecionados"></ul>
+      <strong id="total">Total: R$ 0,00</strong><br><br>
+      <button onclick="salvarComanda()">Salvar Comanda</button>
+    </div>
+
+    <div class="produtos">
+      <h2>Produtos</h2>
+      <div id="lista-produtos"></div>
+    </div>
+
+    <div class="comandas-dia">
+      <h2>Comandas do Dia</h2>
+      <div id="comandas"></div>
+      <button onclick="imprimirResumo()">Imprimir resumo do dia</button>
+    </div>
+  </div>
+
+    </main>
+
+    <script src="js/script.js"></script>
+    <script src="js/delivery.js"></script>
+</body>
+</html>
+

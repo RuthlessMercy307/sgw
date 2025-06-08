@@ -1,0 +1,96 @@
+body {
+  font-family: 'Open Sans', monospace;
+  background: #f7f7f7;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.container-3colunas {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.comanda-atual, .produtos, .comandas-dia {
+  background: #fff;
+  border: 1px dashed #000;
+  padding: 10px;
+  width: 300px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.produto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 5px 0;
+}
+
+.produto span button {
+  margin-left: 3px;
+}
+
+.comanda {
+  border: 1px dashed #000;
+  background: #fff;
+  padding: 10px;
+  margin-top: 15px;
+  width: 90%;
+}
+
+@media print {
+  * {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body, html {
+    width: 58mm;
+    font-size: 10pt;
+    background: white;
+  }
+
+  .printable {
+    width: 58mm;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .printable button {
+    display: none;
+  }
+
+  .printable ul {
+    padding-left: 15px;
+  }
+
+  @page {
+    size: 58mm auto;
+    margin: 0;
+  }
+}
+
+#total {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 5px 0;
+  font-weight: bold;
+  display: block;
+}
+
+.comanda-atual, .produtos, .comandas-dia, .comanda {
+  border-radius: 8px;
+}

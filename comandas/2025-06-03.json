@@ -1,0 +1,21 @@
+[
+  {
+    "numero": "01",
+    "data": "03/06/2025, 13:18:57",
+    "cliente": "jesus",
+    "telefone": "132",
+    "endereco": "asd",
+    "observacoes": "asd",
+    "pagamento": "Dinheiro",
+    "delivery": 3,
+    "troco": 123,
+    "total": 27,
+    "items": [
+      {
+        "nome": "Arroz c/ frango",
+        "preco": 24,
+        "obs": null
+      }
+    ]
+  }
+]

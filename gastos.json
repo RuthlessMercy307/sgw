@@ -1,0 +1,14 @@
+[
+  {
+    "valor": 13,
+    "motivo": "test",
+    "tipo": "conta",
+    "data": "03/06/2025, 12:33:42"
+  },
+  {
+    "valor": 100,
+    "motivo": "asd",
+    "tipo": "caixa",
+    "data": "03/06/2025, 12:33:54"
+  }
+]

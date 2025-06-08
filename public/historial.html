@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGW</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/historial.css">
+
+    <script src="https://kit.fontawesome.com/39116ae592.js" crossorigin="anonymous"></script>
+</head>
+<body id="body">
+    
+    <header>
+        <div class="icon__menu">
+            <i class="fas fa-bars" id="btn_open"></i>
+        </div>
+    </header>
+
+    <div class="menu__side" id="menu_side">
+
+        <div class="name__page">
+            <i class="fab fa-youtube"></i>
+        </div>
+
+        <div class="options__menu">	
+
+            <a href="#" onclick="cargarSeccion('mesas')">
+                <div class="option">
+                    <i class="fas fa-home" title="Mesas"></i>
+                    <h4>Mesas</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('delivery')">
+                <div class="option">
+                    <i class="far fa-file" title="Delivery"></i>
+                    <h4>Delivery</h4>
+                </div>
+            </a>
+            
+            <a href="#" onclick="cargarSeccion('items')">
+                <div class="option">
+                    <i class="fas fa-video" title="Items"></i>
+                    <h4>Items</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('usuarios')">
+                <div class="option">
+                    <i class="far fa-sticky-note" title="Usuarios"></i>
+                    <h4>Usuarios</h4>
+                </div>
+            </a>
+
+            <a href="#" class="selected" onclick="cargarSeccion('historial')">
+                <div class="option">
+                    <i class="far fa-id-badge" title="historial"></i>
+                    <h4>Historico</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('ia')">
+                <div class="option">
+                    <i class="far fa-address-card" title="IA"></i>
+                    <h4>IA</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('configuracion')">
+                <div class="option">
+                    <i class="far fa-address-card" title="Configuración"></i>
+                    <h4>Configuracion</h4>
+                </div>
+            </a>
+
+            <a href="#" onclick="cargarSeccion('cerrar')">
+                <div class="option">
+                    <i class="far fa-address-card" title="Cerrar Sesión"></i>
+                    <h4>Cerrar Sesion</h4>
+                </div>
+            </a>
+
+        </div>
+
+
+    </div>
+
+    <main>
+        <div id="contenido"></div>
+        <div class="flex">
+            <div class="coluna">
+            <h2>Histórico de Pedidos</h2>
+            <label>Selecionar Data:
+                <input type="date" id="data-pedidos">
+            </label>
+            <div id="lista-pedidos"></div>
+            </div>
+
+            <div class="coluna">
+            <h2>Registrar Gasto</h2>
+            <input type="number" id="gasto-valor" placeholder="Valor" step="0.01"><br>
+            <textarea id="gasto-motivo" placeholder="Motivo" rows="2"></textarea><br>
+            <select id="gasto-tipo">
+                <option value="caixa">Caixa (dinheiro)</option>
+                <option value="conta">Conta (digital)</option>
+            </select><br>
+            <button onclick="registrarGasto()">Salvar Gasto</button>
+
+            <h3>Histórico de Gastos</h3>
+            <div id="lista-gastos"></div>
+            </div>
+        </div>
+
+        <script>
+            async function carregarPedidos(dataStr) {
+            const res = await fetch(`/comandas/${dataStr}.json`);
+            const div = document.getElementById('lista-pedidos');
+            if (!res.ok) {
+                div.innerHTML = '<p style="color:gray;">Nenhum pedido encontrado</p>';
+                return;
+            }
+
+            const pedidos = await res.json();
+            div.innerHTML = pedidos.map(p => `
+                <div style="
+                background: #fff;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 12px;
+                margin-bottom: 14px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                max-width: 500px;
+                ">
+                <h3 style="margin: 0 0 8px;">Comanda <span style="color: #555;">${p.numero}</span></h3>
+                <p><strong>Cliente:</strong> ${p.cliente}</p>
+                <p><strong>Total:</strong> R$ ${p.total.toFixed(2)}</p>
+                <p><strong>Pagamento:</strong> ${p.pagamento}</p>
+                <p><strong>Itens:</strong></p>
+                <ul style="margin-left: 16px;">
+                    ${p.items.map(i => `
+                    <li>${i.nome} – R$ ${i.preco.toFixed(2)}</li>
+                    `).join('')}
+                </ul>
+                </div>
+            `).join('');
+            }
+
+            async function registrarGasto() {
+            const valor = parseFloat(document.getElementById('gasto-valor').value);
+            const motivo = document.getElementById('gasto-motivo').value.trim();
+            const tipo = document.getElementById('gasto-tipo').value;
+            if (!motivo || isNaN(valor)) return alert('Preencha todos os campos');
+
+            await fetch('/gasto', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ valor, motivo, tipo })
+            });
+            document.getElementById('gasto-valor').value = '';
+            document.getElementById('gasto-motivo').value = '';
+            carregarGastos();
+            }
+
+            async function carregarGastos() {
+            const res = await fetch('/gastos');
+            if (!res.ok) return;
+            const lista = await res.json();
+            const div = document.getElementById('lista-gastos');
+            div.innerHTML = lista.reverse().map(g => `
+                <div class="box">
+                <strong>R$ ${g.valor.toFixed(2)}</strong> (${g.tipo})<br>
+                ${g.motivo}<br>
+                <small>${g.data}</small>
+                </div>
+            `).join('');
+            }
+
+            document.getElementById('data-pedidos').addEventListener('change', (e) => {
+            const data = e.target.value;
+            if (data) carregarPedidos(data);
+            });
+
+            // Inicia com hoje
+            const hoje = new Date().toISOString().split("T")[0];
+            document.getElementById('data-pedidos').value = hoje;
+            carregarPedidos(hoje);
+            carregarGastos();
+        </script>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
