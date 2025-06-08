@@ -42,6 +42,9 @@ app.get('/pedidos', (req, res) => {
 // 🔽 GET /comandas/:data.json — retorna pedidos de um dia específico
 app.get('/comandas/:data.json', (req, res) => {
   const data = req.params.data;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(data)) {
+    return res.status(400).json({ error: 'Formato de data inválido' });
+  }
   const caminho = path.join(pastaComandas, `${data}.json`);
 
   if (!fs.existsSync(caminho)) return res.status(404).json({ error: 'Não encontrado' });
